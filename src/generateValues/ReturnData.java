@@ -14,38 +14,39 @@ public class ReturnData {
     private  Integer numOfArray;
     private List< Integer[]> resultData;
 
-    public ReturnData(int numOfArray){
-        this.numOfArray = numOfArray;
+    public ReturnData(){
+        numOfArray = 1;
         resultData = new ArrayList< Integer[]>();
     }
 
-    public  Integer[] generateRow() throws Exception {
+    private  Integer[] generateRow(int numItems) throws Exception {
         GenerateArray generator = new GenerateArray();
         Integer[] resultRow = new  Integer[2];
         Integer[] array;
-        Integer start = (int) System.nanoTime();
-        array = generator.generateArray();
+        Integer start;
+        array = generator.generateArray(numItems);
         resultRow [0] = array.length;
-      //  SortingClass sort = new SortingClass(array);
         HeapSortAlgorithm sort = new HeapSortAlgorithm();
         sort.setArray(array);
+        start = (int) System.nanoTime();
         sort.run();
         Integer stop = (int) System.nanoTime();
         Integer result = stop - start;
         resultRow [1] = result;
-//        for (int i = 0; i< array.length; i++)
-//            System.out.println(array[i]);
         return resultRow;
     }
 
-    public List< Integer[]> getData(){
-        for(int currentRow = 0; currentRow < numOfArray; currentRow++){
+    public void generateRows(int numOfArray){
+        for(int currentRow = 2; currentRow <= numOfArray; currentRow++){
             try {
-                resultData.add(generateRow());
+                resultData.add(generateRow(currentRow));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public List< Integer[]> getRows(){
         return resultData;
     }
 }

@@ -1,4 +1,6 @@
 import generateValues.ReturnData;
+import graphicComponent.DirPan;
+import pageView.PageViewComponent;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -16,24 +18,16 @@ public class View extends JFrame implements Runnable {
 
     }
     public void run(){
-        JPanel panel = new JPanel();
-        data = new ReturnData(5);
-        model = new DefaultTableModel();
-        table = new JTable();
-        model.addColumn("Элементы");
-        model.addColumn("Время");
-        table.setModel(model);
-        List< Integer[]> rows;
-        rows = data.getData();
-        for(int currentRow = 0; currentRow < rows.size(); currentRow++){
-            model.addRow(rows.get(currentRow));
-        }
-        Box box = Box.createVerticalBox();
-        panel.add(new JScrollPane(table));
-        box.add(panel);
-        add(box);
-        pack();
-        setVisible(true);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        JFrame frame = new JFrame();
+        data = new ReturnData();
+        PageViewComponent tableView = new PageViewComponent(data) ;
+        Box box = Box.createHorizontalBox();
+        box.add(tableView);
+        DirPan graph = new DirPan(data);
+        box.add(graph);
+        frame.add(box);
+        frame.setSize(1600,750);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 }

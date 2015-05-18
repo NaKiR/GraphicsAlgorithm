@@ -1,3 +1,7 @@
+import generateValues.ReturnData;
+import graphicComponent.DirPan;
+import pageView.PageViewComponent;
+
 import javax.swing.*;
 
 /**
@@ -7,5 +11,9 @@ public class MainClass {
     public static void main(String[] args){
         View view = new View();
         view.run();
+
+
+
+
     }
 }
