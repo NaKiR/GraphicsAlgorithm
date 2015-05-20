@@ -26,7 +26,7 @@ public class View extends JFrame implements Runnable {
         DirPan graph = new DirPan(data);
         box.add(graph);
         frame.add(box);
-        frame.setSize(1600,750);
+        frame.pack();
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }

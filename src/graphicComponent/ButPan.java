@@ -18,15 +18,15 @@ public class ButPan extends JPanel implements ActionListener
     {
         if (e.getSource().equals(jbt1))
         {
-            if( graphic.getNy()== 5 ) jbt2.setEnabled( true );
-            graphic.setNy(graphic.getNy() + 5);
+            if( graphic.getValOfDivision()== 5 ) jbt2.setEnabled( true );
+            graphic.setValOfDivision(graphic.getValOfDivision() + 5);
             graphic.repaint();
         }
         if (e.getSource().equals(jbt2))
         {
-            graphic.setNy(graphic.getNy() - 5);
+            graphic.setValOfDivision(graphic.getValOfDivision() - 5);
             graphic.repaint();
-            if(graphic.getNy() == 5) jbt2.setEnabled(false);
+            if(graphic.getValOfDivision() == 5) jbt2.setEnabled(false);
         }
 
         if (e.getSource().equals(jbt7))

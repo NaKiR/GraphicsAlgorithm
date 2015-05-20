@@ -6,29 +6,26 @@ package graphicComponent;
 import generateValues.ReturnData;
 
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.event.*;
 import java.lang.*;
-import java.util.*;
 import java.util.List;
 
 public class PaintGraph extends JPanel
 {
-    private int ny , nx , oyn , oxn , ly , lx , sw , xln , l2;
+    private int valOfDivision, nx , oyn , indent, lenthY, lenthX, sw , xln , l2;
     private float  kx , ky , hx , yg , xk;
     private ReturnData data;
 
     public PaintGraph(ReturnData d)
     {
         this.data = d;
-        ny = 8;// цена деления  по шкалам
+        valOfDivision = 10;// цена деления  по шкалам
         ky = (float)1; // коэф шкалы по у
         kx = (float)0; // коэф шкалы по x
         oyn = 10; // начальный отступ по y
-        oxn = 10 ; //начальный отступ по х
-        ly = 600; // длина оси у
-        lx = 600; // длина оси х
+        indent = 20 ; //начальный отступ по х
+        lenthY = 600; // длина оси у
+        lenthX = 600; // длина оси х
         // по умолчанию в начале на экран выводится график y=x
         sw = 1; // свич для переключения графика функции
         hx = (float)0.011;//шаг табуляции
@@ -38,71 +35,94 @@ public class PaintGraph extends JPanel
     {
        // setSize(100,100);
         super.paint(g);
+
         List<Integer []> dots = data.getRows();
+        lenthY = valOfDivision * (dots.size() + 2);
+        lenthX = valOfDivision * (dots.size() + 2);
         for(int currentDot = 0; currentDot < dots.size(); currentDot++){
             Integer dot[] = dots.get(currentDot);
-        g.fillOval( ny + dot[0]*ny, oxn + lx - ny - (dot[1]/1000) *ny + 10, 5, 5);
+        g.fillOval(indent + dot[0]* valOfDivision, indent + lenthX - (dot[1]/1000) * valOfDivision, 5, 5);
             if(currentDot !=0){
-                g.drawLine(ny + dots.get(currentDot - 1)[0]*ny + 3, oxn + lx - ny - ( dots.get(currentDot - 1)[1]/1000) *ny + 10 + 3,
-                        ny +  dots.get(currentDot)[0]*ny + 3, oxn + lx - ny - ( dots.get(currentDot)[1]/1000) *ny + 10 + 3);
+                g.drawLine(indent + dots.get(currentDot - 1)[0]* valOfDivision + 3, indent + lenthX - ( dots.get(currentDot - 1)[1]/1000) * valOfDivision +3 ,
+                        indent +  dots.get(currentDot)[0]* valOfDivision + 3 , indent + lenthX - ( dots.get(currentDot)[1]/1000) * valOfDivision +3);
             }
         }
-        g.fillOval(oxn , oxn + lx, 5, 5);
-        //Разбиваем каждую ось на две части для удобства переноса центра координат
-        g.drawLine( ( int ) ( lx * kx + oxn ) , oyn ,
-                ( int ) ( lx * kx+ oxn ) , ly + oyn );
-        // Стрелки
-        g.drawLine( ( int ) ( lx * kx + oxn) , oyn ,
-                ( int ) ( lx * kx + oxn ) - 3 , oyn + 10 );
-        g.drawLine( ( int ) ( lx * kx + oxn) , oyn ,
-                ( int ) ( lx * kx + oxn) + 3 , oyn + 10 );
-        // Надпись
-        g.drawString( "Y" , ( int ) ( lx * kx + oxn) - 10 , oyn + 10 );
-        g.drawString( "0" , ( int ) ( lx * kx + oxn ) - 10 , ( int) ( ly * ky+ oyn) + 10 );
-        //Деления
-        int l1 = ( int ) (ly*ky);
-        l2 = ly - l1;
-        int k1 = ( int ) l1 / ny ;
-        int k2 = ( int ) l2 / ny ;
-        for ( int i = 1; i < k1 + 1 ; i++)
-        {
-            g.drawLine( ( int )(lx * kx - 2 + oxn) , l1 - ny+ oyn ,
-                    ( int ) ( lx * kx + 2+ oxn ) , l1 - ny+ oyn );
-            l1 = l1 - ny ;
+
+        setPreferredSize(new Dimension(lenthX + 2 * indent +  2 * valOfDivision, lenthY + 2 * indent));
+        g.drawLine(indent, indent, indent, lenthY + indent);
+        g.drawLine( indent, lenthY + indent, indent + lenthX + valOfDivision, lenthY + indent);
+        g.drawLine(indent, indent, indent - 7, indent + 10);
+        g.drawLine(indent, indent, indent + 7, indent + 10);
+        g.drawLine(indent + lenthX + valOfDivision, lenthY + indent, indent + lenthX + valOfDivision - 10, lenthY + indent +7);
+        g.drawLine(indent + lenthX + valOfDivision, lenthY + indent, indent + lenthX + valOfDivision - 10, lenthY + indent -7);
+
+        int numOfSegmentsX = lenthX / valOfDivision;
+        int numOfSegmentsY = (lenthY / valOfDivision) - 1;
+
+        for(int segment = 1; segment <= numOfSegmentsY; segment++){
+            g.drawLine(indent - 3, lenthY + indent - valOfDivision * segment,
+                    indent + 3, lenthY + indent - valOfDivision * segment);
         }
-        l1 = ly - l2;
-        for ( int i = 1; i < k2 + 1 ; i++)
-        {
-            g.drawLine( ( int )(lx * kx - 2 + oxn) , l1 + ny+ oyn ,
-                    ( int )(lx * kx + 2+ oxn ) , l1 + ny+ oyn );
-            l1 = l1 + ny ;
+        for(int segment = 1; segment <= numOfSegmentsX; segment++){
+            g.drawLine(indent +  valOfDivision * segment, lenthY + indent -3,
+                    indent +  valOfDivision * segment, lenthY + indent + 3);
         }
-        // Ось Х
-        g.drawLine( oxn , ( int ) ( ly * ky + oyn) , lx + oxn,  ( int ) ( ly * ky + oyn)  );
-        g.drawLine( lx+ oxn , ( int ) ( ly * ky + oyn ) , lx+ oxn - 10 ,
-                ( int ) ( ly * ky + oyn) - 3 );
-        g.drawLine( lx + oxn, ( int ) ( ly * ky + oyn) , lx+ oxn - 10 ,
-                ( int ) ( ly * ky+ oyn ) + 3 );
-        // Надпись
-        g.drawString( "Х" , lx+ oyn -10 , ( int ) ( ly * ky+ oyn ) - 10 );
-        // Деления
-        l1 = ( int ) ( lx * kx );
-        l2 = lx - l1;
-        k1 = ( int ) l1 / ny ;
-        k2 = ( int ) l2 / ny ;
-        for ( int i = 1; i <  k1 + 1 ; i++)
-        {
-            g.drawLine( l1 - ny + oxn ,( int ) ( ly * ky - 2+ oyn) ,
-                    l1 - ny + oxn , ( int ) ( ly * ky + 2 + oyn )  );
-            l1 = l1 - ny ;
-        }
-        l1 = lx - l2;
-        for ( int i = 1; i < k2 + 1 ; i++)
-        {
-            g.drawLine( l1 + ny+ oxn ,( int )(ly* ky - 2+ oyn) ,
-                    l1 + ny + oxn , ( int )(ly * ky + 2+ oyn )  );
-            l1 = l1 + ny ;
-        }
+//        g.fillOval(indent , indent + lenthX, 5, 5);
+//        //Разбиваем каждую ось на две части для удобства переноса центра координат
+//        g.drawLine( ( int ) ( lenthX * kx + indent ) , oyn ,
+//                ( int ) ( lenthX * kx+ indent ) , lenthY + oyn );
+//        // Стрелки
+//        g.drawLine( ( int ) ( lenthX * kx + indent) , oyn ,
+//                ( int ) ( lenthX * kx + indent ) - 3 , oyn + 10 );
+//        g.drawLine( ( int ) ( lenthX * kx + indent) , oyn ,
+//                ( int ) ( lenthX * kx + indent) + 3 , oyn + 10 );
+//        // Надпись
+//        g.drawString( "Y" , ( int ) ( lenthX * kx + indent) - 10 , oyn + 10 );
+//        g.drawString( "0" , ( int ) ( lenthX * kx + indent ) - 10 , ( int) ( lenthY * ky+ oyn) + 10 );
+//        //Деления
+//        int l1 = ( int ) (lenthY*ky);
+//        l2 = lenthY - l1;
+//        int k1 = ( int ) l1 / valOfDivision ;
+//        int k2 = ( int ) l2 / valOfDivision ;
+//        for ( int i = 1; i < k1 + 1 ; i++)
+//        {
+//            g.drawLine( ( int )(lenthX * kx - 2 + indent) , l1 - valOfDivision+ oyn ,
+//                    ( int ) ( lenthX * kx + 2+ indent ) , l1 - valOfDivision+ oyn );
+//            l1 = l1 - valOfDivision ;
+//        }
+//        l1 = lenthY - l2;
+//        for ( int i = 1; i < k2 + 1 ; i++)
+//        {
+//            g.drawLine( ( int )(lenthX * kx - 2 + indent) , l1 + valOfDivision+ oyn ,
+//                    ( int )(lenthX * kx + 2+ indent ) , l1 + valOfDivision+ oyn );
+//            l1 = l1 + valOfDivision ;
+//        }
+//        // Ось Х
+//        g.drawLine( indent , ( int ) ( lenthY * ky + oyn) , lenthX + indent,  ( int ) ( lenthY * ky + oyn)  );
+//        g.drawLine( lenthX+ indent , ( int ) ( lenthY * ky + oyn ) , lenthX+ indent - 10 ,
+//                ( int ) ( lenthY * ky + oyn) - 3 );
+//        g.drawLine( lenthX + indent, ( int ) ( lenthY * ky + oyn) , lenthX+ indent - 10 ,
+//                ( int ) ( lenthY * ky+ oyn ) + 3 );
+//        // Надпись
+//        g.drawString( "Х" , lenthX+ oyn -10 , ( int ) ( lenthY * ky+ oyn ) - 10 );
+//        // Деления
+//        l1 = ( int ) ( lenthX * kx );
+//        l2 = lenthX - l1;
+//        k1 = ( int ) l1 / valOfDivision ;
+//        k2 = ( int ) l2 / valOfDivision ;
+//        for ( int i = 1; i <  k1 + 1 ; i++)
+//        {
+//            g.drawLine( l1 - valOfDivision + indent ,( int ) ( lenthY * ky - 2+ oyn) ,
+//                    l1 - valOfDivision + indent , ( int ) ( lenthY * ky + 2 + oyn )  );
+//            l1 = l1 - valOfDivision ;
+//        }
+//        l1 = lenthX - l2;
+//        for ( int i = 1; i < k2 + 1 ; i++)
+//        {
+//            g.drawLine( l1 + valOfDivision+ indent ,( int )(lenthY* ky - 2+ oyn) ,
+//                    l1 + valOfDivision + indent , ( int )(lenthY * ky + 2+ oyn )  );
+//            l1 = l1 + valOfDivision ;
+//        }
         // Выбор метода для рисования функции
 //        switch (sw)
 //        {
@@ -118,27 +138,27 @@ public class PaintGraph extends JPanel
 
     void funcLine(Graphics g)
     {
-        xln = ( lx - l2 ) ;
+        xln = ( lenthX - l2 ) ;
         xk = 0 ;
         yg = 0;
-        while(   ( xk + hx )  * ny < xln  &&  ( xk + hx )* ny < ly - ly * ky )
+        while(   ( xk + hx )  * valOfDivision < xln  &&  ( xk + hx )* valOfDivision < lenthY - lenthY * ky )
         {
             yg =  xk  ;
-            g.drawLine( ( int ) ( xln - xk * ny+ oxn ) ,
-                    ( int ) ( ly * ky + yg * ny + oyn),
-                    ( int ) ( xln -  ( xk + hx ) * ny + oxn ),
-                    ( int ) ( ly * ky + ( xk + hx )  * ny )+ oyn) ;
+            g.drawLine( ( int ) ( xln - xk * valOfDivision + indent) ,
+                    ( int ) ( lenthY * ky + yg * valOfDivision + oyn),
+                    ( int ) ( xln -  ( xk + hx ) * valOfDivision + indent),
+                    ( int ) ( lenthY * ky + ( xk + hx )  * valOfDivision)+ oyn) ;
             xk = xk + hx ;
         }
         xk = 0 ;
         yg = 0;
-        while(   ( xk + hx )  * ny < l2 &&  ( xk + hx )  * ny < ly * ky )
+        while(   ( xk + hx )  * valOfDivision < l2 &&  ( xk + hx )  * valOfDivision < lenthY * ky )
         {
             yg =  xk  ;
-            g.drawLine( ( int ) ( xln + xk * ny+ oxn ) ,
-                    ( int ) ( ly * ky - yg * ny+ oyn ),
-                    ( int ) ( xln +  ( xk + hx ) * ny+ oxn ),
-                    ( int ) ( ly * ky - ( xk + hx )  * ny  )+ oyn) ;
+            g.drawLine( ( int ) ( xln + xk * valOfDivision + indent) ,
+                    ( int ) ( lenthY * ky - yg * valOfDivision + oyn ),
+                    ( int ) ( xln +  ( xk + hx ) * valOfDivision + indent),
+                    ( int ) ( lenthY * ky - ( xk + hx )  * valOfDivision)+ oyn) ;
             xk = xk + hx ;
         }
     }
@@ -152,11 +172,11 @@ public class PaintGraph extends JPanel
     public void setNx(int nx) {
         this.nx = nx;
     }
-    public int getNy() {
-        return ny;
+    public int getValOfDivision() {
+        return valOfDivision;
     }
-    public void setNy(int ny) {
-        this.ny = ny;
+    public void setValOfDivision(int valOfDivision) {
+        this.valOfDivision = valOfDivision;
     }
     public float getKy() {
         return ky;
@@ -176,17 +196,17 @@ public class PaintGraph extends JPanel
     public void setHx(float hx) {
         this.hx = hx;
     }
-    public int getLx() {
-        return lx;
+    public int getLenthX() {
+        return lenthX;
     }
-    public void setLx(int lx) {
-        this.lx = lx;
+    public void setLenthX(int lenthX) {
+        this.lenthX = lenthX;
     }
-    public int getLy() {
-        return ly;
+    public int getLenthY() {
+        return lenthY;
     }
-    public void setLy(int ly) {
-        this.ly = ly;
+    public void setLenthY(int lenthY) {
+        this.lenthY = lenthY;
     }
     public int getSw() {
         return sw;
@@ -200,10 +220,10 @@ public class PaintGraph extends JPanel
     public void setOyn(int oyn) {
         this.oyn = oyn;
     }
-    public int getOxn() {
-        return oxn;
+    public int getIndent() {
+        return indent;
     }
-    public void setOxn(int oxn) {
-        this.oxn = oxn;
+    public void setIndent(int indent) {
+        this.indent = indent;
     }
 }
