@@ -75,7 +75,9 @@ public class PageViewComponent extends JPanel {
     }
 
     public void generateArrays(int numOfArrays){
-        data.generateRows(numOfArrays);
+
+        data.getNumOfArray(numOfArrays);
+        data.start();
         currentPage = 1;
         tableComponent.updateModel(currentPage, numOfRecords);
         buttonsPanel.setPagesAndRecords(tableComponent.getPages(),tableComponent.getNumOfRecords(),currentPage);

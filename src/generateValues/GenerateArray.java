@@ -4,7 +4,7 @@ package generateValues;
 /**
  * Created by USER on 17.05.15.
  */
-public class GenerateArray {
+public class GenerateArray{
 
     public  Integer[] generateArray(int numOfItems){
         Integer n;
