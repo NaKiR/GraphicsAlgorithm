@@ -20,11 +20,12 @@ public class TableComponent {
     private ReturnData data;
     private int TypeOfRowData;
 
-    public TableComponent(ReturnData data, int currentPage, int numOfRecords, JTable table){
+    public TableComponent(int currentPage, int numOfRecords, JTable table){
+        this.data = new ReturnData();
         this.TypeOfRowData = TypeOfRowData;
         model = new DefaultTableModel();
         this.table = table;
-        this.data = data;
+      //  this.data = data;
         this.currentPage = currentPage;
         this.pages = 1;
         this.numOfRecords = numOfRecords;
@@ -59,6 +60,9 @@ public class TableComponent {
             }
         }
 
+    }
+    public void setData(ReturnData data){
+        this.data = data;
     }
     public int getPages(){
         return pages;

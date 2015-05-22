@@ -13,11 +13,9 @@ public class ButtonsPanel extends JPanel {
     private JButton toFirstsPage;
     private JButton toLastPage;
     private JButton applyPages;
-    private JButton generateButton;
     private JLabel currentPage = new JLabel("Страница : ");
     private JLabel numOfRecords = new JLabel();
     private JTextField numOfRows = new JTextField(3);
-    private JTextField numOfArrays = new JTextField(3);
     private PageViewComponent pageComponent;
     private int pages;
     private int records;
@@ -33,7 +31,6 @@ public class ButtonsPanel extends JPanel {
         nextPage = new JButton(">");
         toLastPage = new JButton(">>");
         applyPages = new JButton("применить");
-        generateButton = new JButton("Сгенерировать");
         JPanel buttonsPanel = new JPanel();
         Box numOfPagesBox = Box.createHorizontalBox();
         Box arrayBox = Box.createHorizontalBox();
@@ -59,12 +56,6 @@ public class ButtonsPanel extends JPanel {
         numOfRows.setText("10");
         numOfPagesBox.add(applyPages);
         buttonBox.add(panelRows);
-
-        JPanel panelArray = new JPanel();
-        numOfArrays.setText("5");
-        panelArray.add(generateButton);
-        panelArray.add(numOfArrays);
-        buttonBox.add(panelArray);
         add(buttonBox);
         initListeners();
     }
@@ -104,12 +95,7 @@ public class ButtonsPanel extends JPanel {
                 pageComponent.setNumOfRecords(Integer.parseInt(numOfRows.getText()));
             }
         });
-        generateButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                pageComponent.generateArrays(Integer.parseInt(numOfArrays.getText()));
-            }
-        });
+
     }
 
     public void updateLabels(){

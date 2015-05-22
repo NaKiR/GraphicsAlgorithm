@@ -18,15 +18,12 @@ public class RadPan extends JPanel implements ActionListener
 // Проверяется источник генерации события, и в зависимости от него задается вид
 // графика функции
         if (e.getSource().equals(jrb1)){
-            pg.setSw(1) ;
             pg.repaint();// перерисовка графика функции
         }
         if (e.getSource().equals(jrb2)) {
-            pg.setSw(2) ;
             pg.repaint();
         }
         if (e.getSource().equals(jrb3)) {
-            pg.setSw(3);
             pg.repaint();
         }
     }

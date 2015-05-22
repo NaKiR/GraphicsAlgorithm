@@ -14,18 +14,23 @@ public class DirPan extends JPanel
 {
     private PaintGraph pg; // класс вывода графика функции
     private ButPan bp; // класс управляющих масштабом кнопок
-    public DirPan(ReturnData d)
+    public DirPan()
     {
+        setSize(600,600);
         setLayout(new BorderLayout()); // установка менеджера размещения
-        pg = new PaintGraph(d); // инициализация класса построения графика функции
+        pg = new PaintGraph(); // инициализация класса построения графика функции
          // задание размеров
         JScrollPane scroll = new JScrollPane(pg);
-        add(scroll,BorderLayout.CENTER); // задание размещения
+        scroll.setPreferredSize(new Dimension(600,600));
+        add(scroll, BorderLayout.CENTER); // задание размещения
         bp = new ButPan(pg); // инициализация класса кнопок масштаба
         add(bp, BorderLayout.WEST);
         //setSize(700, 430); // задание размеров
         // главного окна при закрытии
         setVisible(true);
         //scroll.addMouseMotionListener(new Mo);
+    }
+    public void setData(ReturnData data){
+        pg.setData(data);
     }
 }

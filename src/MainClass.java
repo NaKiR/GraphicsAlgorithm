@@ -9,11 +9,6 @@ import javax.swing.*;
  */
 public class MainClass {
     public static void main(String[] args){
-        Runnable view = new View();
-        view.run();
-
-
-
-
+        View view = new View();
     }
 }

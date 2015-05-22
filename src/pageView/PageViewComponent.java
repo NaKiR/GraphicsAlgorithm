@@ -5,6 +5,7 @@ import generateValues.ReturnData;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 
 /**
  * Created by USER on 11.04.15.
@@ -17,15 +18,14 @@ public class PageViewComponent extends JPanel {
     private JLabel numOfPagesLabel;
     private ButtonsPanel buttonsPanel = new ButtonsPanel(this);
     private TableComponent tableComponent;
-    private ReturnData data;
     private DefaultTableModel model = new DefaultTableModel();
     private JTable table = new JTable(model);
 
-    public PageViewComponent( ReturnData data){
+    public PageViewComponent(ReturnData data){
+        //this.tableComponent.setData(data);
         currentPage = 1;
         numOfRecords = 10;
-        this.data = data;
-        tableComponent = new TableComponent(data, currentPage, numOfRecords, table);
+        tableComponent = new TableComponent( currentPage, numOfRecords, table);
         Box box = Box.createVerticalBox();
         box.add(new JScrollPane(table));
         box.add(buttonsPanel);
@@ -74,10 +74,8 @@ public class PageViewComponent extends JPanel {
         buttonsPanel.updateLabels();
     }
 
-    public void generateArrays(int numOfArrays){
-
-        data.getNumOfArray(numOfArrays);
-        data.start();
+    public void setData(ReturnData data){
+        tableComponent.setData(data);
         currentPage = 1;
         tableComponent.updateModel(currentPage, numOfRecords);
         buttonsPanel.setPagesAndRecords(tableComponent.getPages(),tableComponent.getNumOfRecords(),currentPage);
