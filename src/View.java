@@ -1,5 +1,6 @@
 import generateValues.ReturnData;
 import graphicComponent.DirPan;
+import graphicComponent.PaintGraph;
 import pageView.PageViewComponent;
 
 import javax.swing.*;
@@ -52,6 +53,7 @@ public class View extends JFrame {
             data.getNumOfArray(Integer.parseInt(numOfArrays.getText()));
             data.start();
             tableView.updateModel();
+            graph.repaint();
         }
     });
     }
