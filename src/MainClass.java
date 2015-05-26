@@ -1,9 +1,3 @@
-import generateValues.ReturnData;
-import graphicComponent.DirPan;
-import pageView.PageViewComponent;
-
-import javax.swing.*;
-
 /**
  * Created by USER on 12.05.15.
  */

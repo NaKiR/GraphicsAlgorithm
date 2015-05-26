@@ -14,8 +14,6 @@ public class PageViewComponent extends JPanel {
 
     private int currentPage;
     private int numOfRecords;
-    private JLabel numOfRecordsLabel;
-    private JLabel numOfPagesLabel;
     private ButtonsPanel buttonsPanel = new ButtonsPanel(this);
     private TableComponent tableComponent;
     private DefaultTableModel model = new DefaultTableModel();

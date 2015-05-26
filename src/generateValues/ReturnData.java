@@ -1,8 +1,8 @@
 package generateValues;
 
+import graphicComponent.GraphComponent;
+import pageView.PageViewComponent;
 import sorting.HeapSortAlgorithm;
-import sorting.SortingClass;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +15,17 @@ public class ReturnData extends  Thread{
     private  Integer numOfArray;
     private List< Integer[]> resultData;
     private Integer[] row;
+    private PageViewComponent table;
+    private GraphComponent graphicComponent;
 
     public ReturnData(){
         numOfArray = 1;
         resultData = new ArrayList< Integer[]>();
+    }
+
+    public void setTableAndGraph(PageViewComponent table, GraphComponent graphicComponent){
+        this.table = table;
+        this.graphicComponent = graphicComponent;
     }
 
     private Integer[] generateRow(int numItems) throws Exception {
@@ -26,15 +33,19 @@ public class ReturnData extends  Thread{
         Integer[] resultRow = new  Integer[2];
         Integer[] array;
         Integer start;
-        array = generator.generateArray(numItems);
-        resultRow [0] = array.length;
+        resultRow [0] = numItems;
         HeapSortAlgorithm sort = new HeapSortAlgorithm();
-        sort.setArray(array);
-        start = (int) System.nanoTime();
-        sort.run();
-        Integer stop = (int) System.nanoTime();
-        Integer result = stop - start;
-        resultRow [1] = result;
+        Integer middle = 0;
+        for(int currentArray = 0; currentArray < 1000; currentArray++){
+            array = generator.generateArray(numItems);
+            sort.setArray(array);
+            start = (int) System.nanoTime();
+            sort.run();
+            Integer stop = (int) System.nanoTime();
+            Integer result = stop - start;
+            middle += result;
+        }
+        resultRow [1] = middle/1000;
         return resultRow;
     }
 
@@ -46,6 +57,10 @@ public class ReturnData extends  Thread{
                     @Override
                     public void run() {
                         resultData.add(row);
+                        if(graphicComponent != null && table != null){
+                            graphicComponent.repaint();
+                            table.updateModel();
+                        }
                     }
                 });
 

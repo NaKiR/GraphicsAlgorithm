@@ -9,14 +9,14 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class DirPan extends JPanel
+public class GraphComponent extends JPanel
 {
     private PaintGraph graphic;
     private JScrollPane scroll;
     private int startX;
     private int startY;
 
-    public DirPan()
+    public GraphComponent()
     {
         setSize(600,600);
         setLayout(new BorderLayout());
@@ -33,9 +33,11 @@ public class DirPan extends JPanel
 
             @Override
             public void mousePressed(MouseEvent e) {
-                startX = e.getX();
-                startY = e.getY();
-                graphic.repaint();
+                if(e.getButton() == MouseEvent.BUTTON1){
+                    startX = e.getX();
+                    startY = e.getY();
+                    graphic.repaint();
+                }
 
             }
 
@@ -57,9 +59,11 @@ public class DirPan extends JPanel
         graphic.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                scroll.getHorizontalScrollBar().setValue(scroll.getHorizontalScrollBar().getValue() + (startX - e.getX()));
-                scroll.getVerticalScrollBar().setValue(scroll.getVerticalScrollBar().getValue() + (startY - e.getY()));
-                graphic.repaint();
+//                if(e.getButton() == MouseEvent.BUTTON1){
+                    scroll.getHorizontalScrollBar().setValue(scroll.getHorizontalScrollBar().getValue() + (startX - e.getX()));
+                    scroll.getVerticalScrollBar().setValue(scroll.getVerticalScrollBar().getValue() + (startY - e.getY()));
+                    graphic.repaint();
+//                }
             }
 
             @Override
