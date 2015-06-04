@@ -1,9 +1,6 @@
 package graphicComponent;
 
-/**
- * Created by USER on 18.05.15.
- */
-import generateValues.ReturnData;
+import generateValues.Function;
 
 import java.awt.*;
 import javax.swing.*;
@@ -20,10 +17,10 @@ public class PaintGraph extends JPanel
     private int lengthY;
     private int lengthX;
 
-    private ReturnData data;
+    private Function data;
     private String nameY = "Y";
     private String nameX = "X";
-    private JScrollPane scrollPane;
+    private JScrollPane scroll;
 
     public PaintGraph()
     {
@@ -32,17 +29,19 @@ public class PaintGraph extends JPanel
         lengthY = 500;
         lengthX = 500;
         setBackground(Color.WHITE);
-        data = new ReturnData();
+        data = new Function();
         addMouseWheelListener(new MouseWheelListener() {
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
                 if(e.isControlDown() && e.getPreciseWheelRotation() > 0){
                     if(valOfDivision > 4) valOfDivision--;
                     repaint();
+                    paintAxis(data.getData());
                 }
                 if(e.isControlDown() && e.getPreciseWheelRotation() < 0){
                     if(valOfDivision < 16) valOfDivision++;
                     repaint();
+                    paintAxis(data.getData());
                 }
             }
         });
@@ -51,24 +50,21 @@ public class PaintGraph extends JPanel
     public void paint(Graphics g)
     {
         super.paintComponent(g);
-        List<Integer []> dots = data.getRows();
+        List<Double []> dots = data.getData();
+        paintAxis(dots);
         for(int currentDot = 0; currentDot < dots.size(); currentDot++){
-            if(lengthX / valOfDivision < dots.get(currentDot)[0]){
-                lengthX = dots.get(currentDot)[0] * valOfDivision;
-            }
-            if(lengthY /valOfDivision < dots.get(currentDot)[1]/1000){
-                lengthY = (dots.get(currentDot)[1]/1000) *valOfDivision;
-            }
-        }
-        for(int currentDot = 0; currentDot < dots.size(); currentDot++){
-            Integer dot[] = dots.get(currentDot);
-            g.setColor(Color.BLUE);
-        g.fillOval(indent + dot[0]* valOfDivision - 2, indent + lengthY - (dot[1]/1000) * valOfDivision - 2, 5, 5);
+            Double dot[] = dots.get(currentDot);
+            g.setColor(Color.DARK_GRAY);
+            double x = dot[0];
+            double y = dot[1]/0.08;
+            g.fillOval(indent + (int)x* valOfDivision - 2, indent + lengthY/2 - (int)y * valOfDivision - 2, 5, 5);
 
-            if(currentDot !=0){
-                g.setColor(Color.RED);
-                g.drawLine(indent + dots.get(currentDot - 1)[0]* valOfDivision + 1, indent + lengthY - ( dots.get(currentDot - 1)[1]/1000) * valOfDivision +1 ,
-                        indent +  dots.get(currentDot)[0]* valOfDivision + 1 , indent + lengthY - ( dots.get(currentDot)[1]/1000) * valOfDivision +1);
+            if(currentDot != 0){
+                g.setColor(Color.BLACK);
+                double x1 = dots.get(currentDot - 1)[0];
+                double y1 = dots.get(currentDot - 1)[1]/0.08;
+                g.drawLine(indent + (int)x1 * valOfDivision + 1, indent + lengthY/2 - (int)y1 * valOfDivision + 1,
+                        indent +  (int)x * valOfDivision + 1 , indent + lengthY/2 - (int)y * valOfDivision + 1);
             }
         }
         g.setColor(Color.BLACK);
@@ -125,21 +121,20 @@ public class PaintGraph extends JPanel
         }
         g.drawString("0,00", indentIn, lengthY/2 + indent + 5);
     }
-    public void setData(ReturnData data){
+    public void setData(Function data){
         this.data = data;
     }
 
-    public int getValOfDivision() {
-        return valOfDivision;
-    }
-    public void setValOfDivision(int valOfDivision) {
-        if(valOfDivision > 2) this.valOfDivision = valOfDivision;
-    }
-
-    public void setNameY(String name){
-        this.nameY = name;
-    }
-    public void setNameX(String name){
-        this.nameX = name;
+    public void paintAxis(List<Double[]> dots) {
+        for (Double[] dot1 : dots) {
+            double x = dot1[0];
+            double y = dot1[1] / 0.08;
+            if (lengthX / valOfDivision < (int) x) {
+                lengthX = (int) x * valOfDivision;
+            }
+            if (lengthY / valOfDivision < (int) y) {
+                lengthY = (int) y * valOfDivision;
+            }
+        }
     }
 }

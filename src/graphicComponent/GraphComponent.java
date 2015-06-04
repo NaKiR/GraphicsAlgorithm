@@ -1,9 +1,6 @@
 package graphicComponent;
 
-/**
- * Created by USER on 18.05.15.
- */
-import generateValues.ReturnData;
+import generateValues.Function;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -73,7 +70,7 @@ public class GraphComponent extends JPanel
     }
 
 
-    public void setData(ReturnData data){
+    public void setData(Function data){
         graphic.setData(data);
     }
 }

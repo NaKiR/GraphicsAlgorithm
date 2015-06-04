@@ -1,8 +1,8 @@
-/**
- * Created by USER on 12.05.15.
- */
+import javax.swing.*;
+
 public class MainClass {
-    public static void main(String[] args){
-        View view = new View();
+    public static void main(String[] args) throws Exception {
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        MainWindow view = new MainWindow();
     }
 }
