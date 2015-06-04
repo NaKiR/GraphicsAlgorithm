@@ -1,7 +1,3 @@
-package graphic;
-
-import Function;
-
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.MouseWheelEvent;
@@ -57,7 +53,7 @@ public class PaintGraph extends JPanel
             g.setColor(Color.DARK_GRAY);
             double x = dot[0];
             double y = dot[1]/0.08;
-            g.fillOval(indent + (int)x* valOfDivision - 2, indent + lengthY/2 - (int)y * valOfDivision - 2, 5, 5);
+//            g.fillOval(indent + (int)x* valOfDivision - 2, indent + lengthY/2 - (int)y * valOfDivision - 2, 5, 5);
 
             if(currentDot != 0){
                 g.setColor(Color.BLACK);
@@ -129,6 +125,7 @@ public class PaintGraph extends JPanel
         for (Double[] dot1 : dots) {
             double x = dot1[0];
             double y = dot1[1] / 0.08;
+            lengthX = 10;
             if (lengthX / valOfDivision < (int) x) {
                 lengthX = (int) x * valOfDivision;
             }

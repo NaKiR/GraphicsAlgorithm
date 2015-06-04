@@ -1,5 +1,3 @@
-import graphic.GraphComponent;
-
 import javax.swing.*;
 import javax.swing.table.TableColumn;
 import java.awt.*;

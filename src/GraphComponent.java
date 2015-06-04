@@ -1,7 +1,3 @@
-package graphic;
-
-import Function;
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -18,7 +14,7 @@ public class GraphComponent extends JPanel
         setSize(600,600);
         setLayout(new BorderLayout());
         graphic = new PaintGraph();
-        scrollPane = new JScrollPane(graphic);
+        scrollPane = new JScrollPane(graphic, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setPreferredSize(new Dimension(600, 600));
         add(scrollPane, BorderLayout.CENTER);
         setVisible(true);
