@@ -33,6 +33,19 @@ public class PaintGraph extends JPanel
         lengthX = 500;
         setBackground(Color.WHITE);
         data = new ReturnData();
+        addMouseWheelListener(new MouseWheelListener() {
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent e) {
+                if(e.isControlDown() && e.getPreciseWheelRotation() > 0){
+                    if(valOfDivision > 4) valOfDivision--;
+                    repaint();
+                }
+                if(e.isControlDown() && e.getPreciseWheelRotation() < 0){
+                    if(valOfDivision < 16) valOfDivision++;
+                    repaint();
+                }
+            }
+        });
     }
 
     public void paint(Graphics g)
@@ -72,9 +85,13 @@ public class PaintGraph extends JPanel
         Integer numOfSegmentsX = lengthX / valOfDivision;
         Integer numOfSegmentsY = (lengthY / valOfDivision) - 1;
 
-        for(int segment = 1; segment <= numOfSegmentsY; segment++){
-            g.drawLine(indent - 3, lengthY + indent - valOfDivision * segment,
-                    indent + 3, lengthY + indent - valOfDivision * segment);
+        for(int segment = 1; segment <= numOfSegmentsY/2; segment++){
+            g.drawLine(indent - 3, lengthY/2 + indent - valOfDivision * segment,
+                    indent + 3, lengthY/2 + indent - valOfDivision * segment);
+        }
+        for(int segment = -1; segment >= -numOfSegmentsY/2; segment--){
+            g.drawLine(indent - 3, lengthY/2 + indent - valOfDivision * segment,
+                    indent + 3, lengthY/2 + indent - valOfDivision * segment);
         }
         for(int segment = 1; segment <= numOfSegmentsX; segment++){
             g.drawLine(indent +  valOfDivision * segment, lengthY/2 + indent -3,
@@ -107,22 +124,6 @@ public class PaintGraph extends JPanel
             g.drawString(myFormatter.format(segment), indentIn, lengthY/2 + indent - valOfDivision * temp + 5);
         }
         g.drawString("0,00", indentIn, lengthY/2 + indent + 5);
-
-        addMouseWheelListener(new MouseWheelListener() {
-            @Override
-            public void mouseWheelMoved(MouseWheelEvent e) {
-                if(e.isControlDown() && e.getPreciseWheelRotation() > 0){
-                    if(valOfDivision > 4) valOfDivision--;
-                    repaint();
-                    System.out.println(e.getScrollType());
-                }
-                if(e.isControlDown() && e.getPreciseWheelRotation() < 0){
-                    if(valOfDivision < 16) valOfDivision++;
-                    repaint();
-                    System.out.println(e.getScrollType());
-                }
-            }
-        });
     }
     public void setData(ReturnData data){
         this.data = data;
