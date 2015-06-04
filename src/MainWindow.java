@@ -1,6 +1,4 @@
-import generateValues.Function;
-import graphicComponent.GraphComponent;
-import table.MyTableModel;
+import graphic.GraphComponent;
 
 import javax.swing.*;
 import javax.swing.table.TableColumn;
@@ -18,7 +16,6 @@ public class MainWindow extends JFrame {
         setSize(750, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setVisible(true);
         JTable table = new JTable(tableModel);
         for (int i = 0; i < 2; i++) {
             TableColumn tc = table.getColumnModel().getColumn(i);
@@ -31,6 +28,7 @@ public class MainWindow extends JFrame {
         add(scrollPane, BorderLayout.WEST);
         addBottomPanel();
         add(graph, BorderLayout.CENTER);
+        setVisible(true);
     }
 
     public void addBottomPanel() {

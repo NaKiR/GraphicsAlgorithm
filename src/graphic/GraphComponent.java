@@ -1,6 +1,6 @@
-package graphicComponent;
+package graphic;
 
-import generateValues.Function;
+import Function;
 
 import java.awt.*;
 import java.awt.event.*;

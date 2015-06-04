@@ -1,7 +1,4 @@
-package generateValues;
-
-import graphicComponent.GraphComponent;
-import table.MyTableModel;
+import graphic.GraphComponent;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -13,14 +10,12 @@ public class Function extends  Thread {
     private int b = 0;
     private int x1 = 0;
     private int x2 = 0;
-    private List<Double[]> resultData;
+    private List<Double[]> resultData = new ArrayList< Double[]>();
     private Double[] row;
     private MyTableModel table;
     private GraphComponent graphicComponent;
 
-    public Function(){
-        resultData = new ArrayList< Double[]>();
-    }
+    public Function(){}
 
     public void setTableAndGraph(MyTableModel table, GraphComponent graphicComponent){
         this.table = table;
