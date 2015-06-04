@@ -1,3 +1,5 @@
+package nakir.ppvis.lab3;
+
 import javax.swing.table.AbstractTableModel;
 import java.text.DecimalFormat;
 import java.util.ArrayList;

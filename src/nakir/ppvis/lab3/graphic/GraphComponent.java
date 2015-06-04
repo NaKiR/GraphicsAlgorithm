@@ -1,3 +1,5 @@
+package nakir.ppvis.lab3.graphic;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -11,10 +13,10 @@ public class GraphComponent extends JPanel
 
     public GraphComponent()
     {
-        setSize(600,600);
+        setSize(600, 600);
         setLayout(new BorderLayout());
         graphic = new PaintGraph();
-        scrollPane = new JScrollPane(graphic, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane = new JScrollPane(graphic);
         scrollPane.setPreferredSize(new Dimension(600, 600));
         add(scrollPane, BorderLayout.CENTER);
         setVisible(true);
@@ -52,10 +54,9 @@ public class GraphComponent extends JPanel
         graphic.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                    scrollPane.getHorizontalScrollBar().setValue(scrollPane.getHorizontalScrollBar().getValue() + (startX - e.getX()));
-                    scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getValue() + (startY - e.getY()));
-                    graphic.repaint();
-//                }
+                scrollPane.getHorizontalScrollBar().setValue(scrollPane.getHorizontalScrollBar().getValue() + (startX - e.getX()));
+                scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getValue() + (startY - e.getY()));
+                graphic.repaint();
             }
 
             @Override
@@ -68,5 +69,9 @@ public class GraphComponent extends JPanel
 
     public void setData(Function data){
         graphic.setData(data);
+    }
+
+    public PaintGraph getGraph() {
+        return graphic;
     }
 }

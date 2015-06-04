@@ -1,3 +1,7 @@
+package nakir.ppvis.lab3.graphic;
+
+import nakir.ppvis.lab3.MyTableModel;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;

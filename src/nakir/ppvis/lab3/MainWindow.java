@@ -1,3 +1,8 @@
+package nakir.ppvis.lab3;
+
+import nakir.ppvis.lab3.graphic.Function;
+import nakir.ppvis.lab3.graphic.GraphComponent;
+
 import javax.swing.*;
 import javax.swing.table.TableColumn;
 import java.awt.*;
@@ -6,12 +11,12 @@ import java.awt.event.ActionListener;
 
 public class MainWindow extends JFrame {
     private GraphComponent graph;
-    private Function data;
+    private Function function;
     private MyTableModel tableModel = new MyTableModel();
 
     public MainWindow() {
         setTitle("График");
-        setSize(750, 600);
+        setSize(750, 650);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         JTable table = new JTable(tableModel);
@@ -33,10 +38,22 @@ public class MainWindow extends JFrame {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         JButton zoomIn = new JButton("+");
+        zoomIn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                graph.getGraph().increaseValOfDivision();
+            }
+        });
         panel.add(zoomIn);
         JButton zoomOut = new JButton("-");
+        zoomOut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                graph.getGraph().reduceValOfDivision();
+            }
+        });
         panel.add(zoomOut);
-        final JLabel labelA = new JLabel("A: ");
+        final JLabel labelA = new JLabel(" A: ");
         panel.add(labelA);
         final JTextField enterA = new JTextField();
         panel.add(enterA);
@@ -57,18 +74,22 @@ public class MainWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int x1, x2, a, b;
-                x1 = new Integer(enterX1.getText());
-                x2 = new Integer(enterX2.getText());
-                a = new Integer(enterA.getText());
-                b = new Integer(enterB.getText());
-                data = new Function();
-                data.setVar(x1, x2);
-                data.setConst(a, b);
-                data.setTableAndGraph(tableModel, graph);
-                graph.setData(data);
-                data.start();
-                tableModel.updateModel(data.getData());
-                graph.repaint();
+                try {
+                    x1 = new Integer(enterX1.getText());
+                    x2 = new Integer(enterX2.getText());
+                    a = new Integer(enterA.getText());
+                    b = new Integer(enterB.getText());
+                    function = new Function();
+                    function.setVar(x1, x2);
+                    function.setConst(a, b);
+                    function.setTableAndGraph(tableModel, graph);
+                    graph.setData(function);
+                    function.start();
+                    tableModel.updateModel(function.getData());
+                    graph.repaint();
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Введены неправильные данные!");
+                }
             }
         });
         panel.add(buildDiagram);

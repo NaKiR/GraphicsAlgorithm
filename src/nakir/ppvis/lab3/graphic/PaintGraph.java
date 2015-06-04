@@ -1,3 +1,5 @@
+package nakir.ppvis.lab3.graphic;
+
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.MouseWheelEvent;
@@ -16,7 +18,7 @@ public class PaintGraph extends JPanel
     private Function data;
     private String nameY = "Y";
     private String nameX = "X";
-    private JScrollPane scroll;
+//    private JScrollPane scroll;
 
     public PaintGraph()
     {
@@ -30,17 +32,25 @@ public class PaintGraph extends JPanel
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
                 if(e.isControlDown() && e.getPreciseWheelRotation() > 0){
-                    if(valOfDivision > 4) valOfDivision--;
-                    repaint();
-                    paintAxis(data.getData());
+                    reduceValOfDivision();
                 }
                 if(e.isControlDown() && e.getPreciseWheelRotation() < 0){
-                    if(valOfDivision < 16) valOfDivision++;
-                    repaint();
-                    paintAxis(data.getData());
+                    increaseValOfDivision();
                 }
             }
         });
+    }
+
+    public void reduceValOfDivision() {
+        if(valOfDivision > 4) valOfDivision--;
+        repaint();
+        paintAxis(data.getData());
+    }
+
+    public void increaseValOfDivision() {
+        if(valOfDivision < 16) valOfDivision++;
+        repaint();
+        paintAxis(data.getData());
     }
 
     public void paint(Graphics g)
@@ -110,12 +120,12 @@ public class PaintGraph extends JPanel
             Integer temp = (int)(segment/0.08);
             g.drawString(myFormatter.format(segment), indentIn, lengthY/2 + indent - valOfDivision * temp + 5);
         }
+        g.drawString("0,00", indentIn, lengthY/2 + indent + 5);
         indentIn = indentIn - 7;
         for(double segment = -0.4; segment >= - numOfSegmentsY/2 * 0.08; segment -= 0.4){
             Integer temp = (int)(segment/0.08);
             g.drawString(myFormatter.format(segment), indentIn, lengthY/2 + indent - valOfDivision * temp + 5);
         }
-        g.drawString("0,00", indentIn, lengthY/2 + indent + 5);
     }
     public void setData(Function data){
         this.data = data;
