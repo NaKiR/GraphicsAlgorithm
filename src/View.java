@@ -12,13 +12,12 @@ import java.awt.event.ActionListener;
 public class View extends JFrame {
     private JButton generateButton;
     private ReturnData data;
-    private JTextField numOfArrays = new JTextField(5);
+    private JTextField numOfArrays = new JTextField(20);
     private PageViewComponent tableView;
     private GraphComponent graph;
 
     public View(){
         JFrame frame = new JFrame();
-      //  data = new ReturnData();
         tableView = new PageViewComponent(new ReturnData()) ;
         Box box = Box.createHorizontalBox();
         Box arrayBox = Box.createVerticalBox();

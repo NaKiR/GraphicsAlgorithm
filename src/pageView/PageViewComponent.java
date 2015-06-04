@@ -20,7 +20,6 @@ public class PageViewComponent extends JPanel {
     private JTable table = new JTable(model);
 
     public PageViewComponent(ReturnData data){
-        //this.tableComponent.setData(data);
         currentPage = 1;
         numOfRecords = 10;
         tableComponent = new TableComponent( currentPage, numOfRecords, table);

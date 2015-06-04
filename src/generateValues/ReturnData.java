@@ -8,9 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * Created by USER on 17.05.15.
- */
 public class ReturnData extends  Thread{
     private  Integer numOfArray;
     private List< Integer[]> resultData;

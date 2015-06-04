@@ -12,7 +12,7 @@ import javax.swing.*;
 public class GraphComponent extends JPanel
 {
     private PaintGraph graphic;
-    private JScrollPane scroll;
+    private JScrollPane scrollPane;
     private int startX;
     private int startY;
 
@@ -21,9 +21,9 @@ public class GraphComponent extends JPanel
         setSize(600,600);
         setLayout(new BorderLayout());
         graphic = new PaintGraph();
-        scroll = new JScrollPane(graphic);
-        scroll.setPreferredSize(new Dimension(600, 600));
-        add(scroll, BorderLayout.CENTER);
+        scrollPane = new JScrollPane(graphic);
+        scrollPane.setPreferredSize(new Dimension(600, 600));
+        add(scrollPane, BorderLayout.CENTER);
         setVisible(true);
         graphic.addMouseListener(new MouseListener() {
             @Override
@@ -59,9 +59,8 @@ public class GraphComponent extends JPanel
         graphic.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
-//                if(e.getButton() == MouseEvent.BUTTON1){
-                    scroll.getHorizontalScrollBar().setValue(scroll.getHorizontalScrollBar().getValue() + (startX - e.getX()));
-                    scroll.getVerticalScrollBar().setValue(scroll.getVerticalScrollBar().getValue() + (startY - e.getY()));
+                    scrollPane.getHorizontalScrollBar().setValue(scrollPane.getHorizontalScrollBar().getValue() + (startX - e.getX()));
+                    scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getValue() + (startY - e.getY()));
                     graphic.repaint();
 //                }
             }

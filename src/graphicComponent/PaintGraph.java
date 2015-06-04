@@ -7,30 +7,30 @@ import generateValues.ReturnData;
 
 import java.awt.*;
 import javax.swing.*;
-import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.lang.*;
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class PaintGraph extends JPanel
 {
     private int valOfDivision;
     private int indent;
-    private int lenthY;
-    private int lenthX;
+    private int lengthY;
+    private int lengthX;
 
     private ReturnData data;
-    private String nameX = "X";
     private String nameY = "Y";
-    private JScrollPane scroll;
+    private String nameX = "X";
+    private JScrollPane scrollPane;
 
     public PaintGraph()
     {
         valOfDivision = 10;
         indent = 40 ;
-        lenthY = 60;
-        lenthX = 60;
+        lengthY = 500;
+        lengthX = 500;
         setBackground(Color.WHITE);
         data = new ReturnData();
     }
@@ -40,45 +40,45 @@ public class PaintGraph extends JPanel
         super.paintComponent(g);
         List<Integer []> dots = data.getRows();
         for(int currentDot = 0; currentDot < dots.size(); currentDot++){
-            if(lenthX / valOfDivision < dots.get(currentDot)[0]){
-                lenthX = dots.get(currentDot)[0] * valOfDivision;
+            if(lengthX / valOfDivision < dots.get(currentDot)[0]){
+                lengthX = dots.get(currentDot)[0] * valOfDivision;
             }
-            if(lenthY/valOfDivision < dots.get(currentDot)[1]/1000){
-                lenthY = (dots.get(currentDot)[1]/1000) *valOfDivision;
+            if(lengthY /valOfDivision < dots.get(currentDot)[1]/1000){
+                lengthY = (dots.get(currentDot)[1]/1000) *valOfDivision;
             }
         }
         for(int currentDot = 0; currentDot < dots.size(); currentDot++){
             Integer dot[] = dots.get(currentDot);
             g.setColor(Color.BLUE);
-        g.fillOval(indent + dot[0]* valOfDivision - 2, indent + lenthY - (dot[1]/1000) * valOfDivision - 2, 5, 5);
+        g.fillOval(indent + dot[0]* valOfDivision - 2, indent + lengthY - (dot[1]/1000) * valOfDivision - 2, 5, 5);
 
             if(currentDot !=0){
                 g.setColor(Color.RED);
-                g.drawLine(indent + dots.get(currentDot - 1)[0]* valOfDivision + 1, indent + lenthY - ( dots.get(currentDot - 1)[1]/1000) * valOfDivision +1 ,
-                        indent +  dots.get(currentDot)[0]* valOfDivision + 1 , indent + lenthY - ( dots.get(currentDot)[1]/1000) * valOfDivision +1);
+                g.drawLine(indent + dots.get(currentDot - 1)[0]* valOfDivision + 1, indent + lengthY - ( dots.get(currentDot - 1)[1]/1000) * valOfDivision +1 ,
+                        indent +  dots.get(currentDot)[0]* valOfDivision + 1 , indent + lengthY - ( dots.get(currentDot)[1]/1000) * valOfDivision +1);
             }
         }
         g.setColor(Color.BLACK);
-        setPreferredSize(new Dimension(lenthX + 2 * indent + 2 * valOfDivision, lenthY + 2 * indent));
-        g.drawLine(indent, indent, indent, lenthY + indent);
-        g.drawLine( indent, lenthY + indent, indent + lenthX + valOfDivision, lenthY + indent);
+        setPreferredSize(new Dimension(lengthX + 2 * indent + 2 * valOfDivision, lengthY + 2 * indent));
+        g.drawLine(indent, indent, indent, lengthY + indent);
+        g.drawLine( indent, lengthY/2 + indent, indent + lengthX + valOfDivision, lengthY/2 + indent);
         g.drawLine(indent, indent, indent - 7, indent + 10);
         g.drawLine(indent, indent, indent + 7, indent + 10);
-        g.drawString(nameX, indent, indent - 5);
-        g.drawString(nameY , indent + lenthX + valOfDivision , lenthY + indent + 20);
-        g.drawLine(indent + lenthX + valOfDivision, lenthY + indent, indent + lenthX + valOfDivision - 10, lenthY + indent + 7);
-        g.drawLine(indent + lenthX + valOfDivision, lenthY + indent, indent + lenthX + valOfDivision - 10, lenthY + indent -7);
+        g.drawString(nameY, indent, indent - 5);
+        g.drawString(nameX, indent + lengthX + valOfDivision, lengthY/2 + indent + 20);
+        g.drawLine(indent + lengthX + valOfDivision, lengthY/2 + indent, indent + lengthX + valOfDivision - 10, lengthY/2 + indent + 7);
+        g.drawLine(indent + lengthX + valOfDivision, lengthY/2 + indent, indent + lengthX + valOfDivision - 10, lengthY/2 + indent -7);
 
-        Integer numOfSegmentsX = lenthX / valOfDivision;
-        Integer numOfSegmentsY = (lenthY / valOfDivision) - 1;
+        Integer numOfSegmentsX = lengthX / valOfDivision;
+        Integer numOfSegmentsY = (lengthY / valOfDivision) - 1;
 
         for(int segment = 1; segment <= numOfSegmentsY; segment++){
-            g.drawLine(indent - 3, lenthY + indent - valOfDivision * segment,
-                    indent + 3, lenthY + indent - valOfDivision * segment);
+            g.drawLine(indent - 3, lengthY + indent - valOfDivision * segment,
+                    indent + 3, lengthY + indent - valOfDivision * segment);
         }
         for(int segment = 1; segment <= numOfSegmentsX; segment++){
-            g.drawLine(indent +  valOfDivision * segment, lenthY + indent -3,
-                    indent +  valOfDivision * segment, lenthY + indent + 3);
+            g.drawLine(indent +  valOfDivision * segment, lengthY/2 + indent -3,
+                    indent +  valOfDivision * segment, lengthY/2 + indent + 3);
         }
 
         int index;
@@ -86,49 +86,44 @@ public class PaintGraph extends JPanel
         int indentIn;
         indentIn = indent ;
 
-        for(Integer segment = 0; segment <= numOfSegmentsX; segment+= 5){
+        for(Integer segment = 5; segment <= numOfSegmentsX - 5; segment+= 5){
 
             if((segment+1)/index != 0){
                 index = index * 10;
                 indentIn = indentIn - 4;
             }
-            g.drawString(segment.toString(),indentIn +  valOfDivision * segment, lenthY + indent + 15 );
+            g.drawString(segment.toString(),indentIn +  valOfDivision * segment, lengthY/2 + indent + 15 );
         }
+        indentIn = indent - 30;
+        DecimalFormat myFormatter = new DecimalFormat("##0.00");
 
-        index = 10;
-        indentIn = indent - 15;
-
-        for(Integer segment = 5; segment <= numOfSegmentsY; segment+= 5){
-
-            if((segment+1)/index != 0){
-                index = index * 10;
-                indentIn = indentIn - 7;
-            }
-            g.drawString(segment.toString(),indentIn, lenthY + indent - valOfDivision * segment + 5);
+        for(double segment = 0.4; segment <= numOfSegmentsY/2 * 0.08; segment += 0.4){
+            Integer temp = (int)(segment/0.08);
+            g.drawString(myFormatter.format(segment), indentIn, lengthY/2 + indent - valOfDivision * temp + 5);
         }
+        indentIn = indentIn - 7;
+        for(double segment = -0.4; segment >= - numOfSegmentsY/2 * 0.08; segment -= 0.4){
+            Integer temp = (int)(segment/0.08);
+            g.drawString(myFormatter.format(segment), indentIn, lengthY/2 + indent - valOfDivision * temp + 5);
+        }
+        g.drawString("0,00", indentIn, lengthY/2 + indent + 5);
 
         addMouseWheelListener(new MouseWheelListener() {
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
-                if(e.isControlDown() && e.getPreciseWheelRotation() < 0){
-                    valOfDivisionAdd();
-                    repaint();
-                }
                 if(e.isControlDown() && e.getPreciseWheelRotation() > 0){
-                    valOfDivisionKick();
-                    repaint();}
+                    if(valOfDivision > 4) valOfDivision--;
+                    repaint();
+                    System.out.println(e.getScrollType());
+                }
+                if(e.isControlDown() && e.getPreciseWheelRotation() < 0){
+                    if(valOfDivision < 16) valOfDivision++;
+                    repaint();
+                    System.out.println(e.getScrollType());
+                }
             }
         });
     }
-
-    private void valOfDivisionKick() {
-        if(valOfDivision > 2) valOfDivision--;
-    }
-
-
-public void valOfDivisionAdd(){
-    if(valOfDivision < 20) valOfDivision++;
-}
     public void setData(ReturnData data){
         this.data = data;
     }
@@ -140,10 +135,10 @@ public void valOfDivisionAdd(){
         if(valOfDivision > 2) this.valOfDivision = valOfDivision;
     }
 
-    public void setNameX(String name){
-        this.nameX = name;
-    }
     public void setNameY(String name){
         this.nameY = name;
+    }
+    public void setNameX(String name){
+        this.nameX = name;
     }
 }
